@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044108467201",
+    "project_id": "mov-2024b-sw-gr2-casc",
+    "storage_bucket": "mov-2024b-sw-gr2-casc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044108467201:android:39c32924940f9ead4d3400",
+        "android_client_info": {
+          "package_name": "com.example.gr2sw2024b_casc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA632ZlpFuBBy5A4nP9ysMq4bO9pdodzeg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
