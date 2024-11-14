@@ -34,6 +34,19 @@ fun main(args: Array<String>) {
 
     imprimirNombre("name");
     calcularSueldo(10.00, bonoEspecial = 20.00)
+
+    val sumaA = Suma(1,1)
+    val sumaB = Suma(null, 1)
+    val sumaC = Suma(1, null)
+    val sumaD = Suma(null, null)
+    sumaA.sumar()
+    sumaB.sumar()
+    sumaC.sumar()
+    sumaD.sumar()
+    println(Suma.pi)
+    println(Suma.elevarAlCuadrado(2))
+    println(Suma.historialSumas)
+
 }
 
 fun imprimirNombre(nombre: String): Unit {
