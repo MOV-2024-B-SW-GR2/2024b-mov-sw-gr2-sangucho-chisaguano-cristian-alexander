@@ -1,0 +1,8 @@
+1|Planeta 1|Terrestre|true|50.0|1600-01-01
+2|Planeta 2|Gaseoso|false|100.0|1600-01-01
+3|Planeta 3|Terrestre|true|150.0|1600-01-01
+4|Planeta 4|Gaseoso|false|200.0|1600-01-01
+5|Planeta 5|Terrestre|true|250.0|1600-01-01
+6|Planeta 6|Gaseoso|false|300.0|1600-01-01
+7|Planeta 7|Terrestre|true|350.0|1600-01-01
+8|Planeta 8|Gaseoso|false|400.0|1600-01-01
