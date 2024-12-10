@@ -7,11 +7,10 @@ class SistemaSolar(
     var nombre: String,
     var añoDescubrimiento: Int,
     var numeroDePlanetas: Int,
-    var fechaCreacion: LocalDate,
     var planetas: ArrayList<Planeta> = ArrayList()
 ) {
     override fun toString(): String {
-        return "$id|$nombre|$añoDescubrimiento|$numeroDePlanetas|$fechaCreacion"
+        return "$id|$nombre|$añoDescubrimiento|$numeroDePlanetas"
     }
     fun mostrarPlanetas() {
         println("Sistema Solar: $nombre tiene ${planetas.size} planetas:")
@@ -56,7 +55,7 @@ class SistemaSolarManager {
     }
 
     private fun generarDatosPorDefecto() {
-        val sistema1 = SistemaSolar(1, "Sistema Solar", 1800, 8, LocalDate.now())
+        val sistema1 = SistemaSolar(1, "Sistema Solar", 1800, 8)
         sistemas.add(sistema1)
         repeat(8) { i ->
             val planeta = Planeta(
@@ -99,8 +98,7 @@ class SistemaSolarManager {
                     datos[0].toInt(),
                     datos[1],
                     datos[2].toInt(),
-                    datos[3].toInt(),
-                    LocalDate.parse(datos[4])
+                    datos[3].toInt()
                 )
                 sistemas.add(sistema)
                 if (sistema.id > ultimoIdSistemaSolar) ultimoIdSistemaSolar = sistema.id
@@ -156,7 +154,7 @@ class SistemaSolarManager {
     // CRUD SistemaSolar
     fun crearSistemaSolar(nombre: String, añoDescubrimiento: Int): Int {
         val id = ++ultimoIdSistemaSolar
-        val sistema = SistemaSolar(id, nombre, añoDescubrimiento, 0, LocalDate.now())
+        val sistema = SistemaSolar(id, nombre, añoDescubrimiento, 0)
         sistemas.add(sistema)
         guardarDatos()
         return id
@@ -252,7 +250,7 @@ fun main() {
     val scanner = Scanner(System.`in`)
 
     while (true) {
-        println("\n=== SISTEMA SOLAR ===")
+        println("\n########## SISTEMA SOLAR ##########")
         println("1. Sistemas Solares")
         println("2. Planetas")
         println("0. Salir")
@@ -260,7 +258,7 @@ fun main() {
 
         when (scanner.nextLine()) {
             "1" -> {
-                println("\n=== GESTIÓN DE SISTEMAS SOLARES ===")
+                println("\n########## GESTIÓN DE SISTEMAS SOLARES ##########")
                 println("1. Crear Sistema Solar")
                 println("2. Ver Sistema Solar")
                 println("3. Actualizar Sistema Solar")
@@ -304,7 +302,7 @@ fun main() {
                     }
 
                     "4" -> {
-                        print("ID del sistema solar: ")
+                        print("ID del sistema : ")
                         if (sistemaSolarManager.eliminarSistemaSolar(scanner.nextLine().toInt())) {
                             println("Sistema solar eliminado")
                         } else {
@@ -331,7 +329,7 @@ fun main() {
             }
 
             "2" -> {
-                println("\n=== GESTIÓN DE PLANETAS ===")
+                println("\n########## GESTIÓN DE PLANETAS ##########")
                 println("1. Crear Planeta")
                 println("2. Ver Planeta")
                 println("3. Actualizar Planeta")
