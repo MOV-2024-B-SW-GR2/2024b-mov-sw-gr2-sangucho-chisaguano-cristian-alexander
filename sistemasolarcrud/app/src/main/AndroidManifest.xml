@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Sistemasolarcrud"
         tools:targetApi="31">
         <activity
+            android:name=".CrearSistemaSolarActivity"
+            android:exported="false" />
+        <activity
             android:name=".PlanetaActivity"
             android:exported="false" />
         <activity
