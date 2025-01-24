@@ -8,7 +8,7 @@ import com.example.sistema_solar_crud.modelo.SistemaSolar
 
 class SQLiteHelper(
     contexto: Context? // this
-): SQLiteOpenHelper(
+) : SQLiteOpenHelper(
     contexto,
     "moviles",
     null,
@@ -25,6 +25,20 @@ class SQLiteHelper(
                 )
             """.trimIndent()
         db?.execSQL(scriptSQLCrearTablaSistemaSolar)
+
+        val scriptSQLCrearTablaPlaneta =
+            """
+                CREATE TABLE PLANETA(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    descripcion VARCHAR(50),
+                    monto Double,
+                    cantidad INTEGER,
+                    cliente_id INTEGER,
+                    FOREIGN KEY(cliente_id) REFERENCES CLIENTE(id) ON DELETE CASCADE
+                )
+            """.trimIndent()
+        db?.execSQL(scriptSQLCrearTablaPlaneta)
+
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -81,6 +95,27 @@ class SQLiteHelper(
         val scriptEliminarSistemaSolar = "DELETE FROM SISTEMASOLAR WHERE id = ?"
         val parametrosEliminar = arrayOf(id.toString())
         baseDatosEscritura.execSQL(scriptEliminarSistemaSolar, parametrosEliminar)
+        baseDatosEscritura.close()
+
+    }
+
+    fun actualizarSistemaSolar(sistemaSolar: SistemaSolar) {
+        val baseDatosEscritura = writableDatabase
+        val scriptActualizarSistemaSolar =
+            """
+                UPDATE SISTEMASOLAR
+                SET nombre = ?,
+                    descripcion = ?,
+                    tamanio = ?
+                WHERE id = ?
+            """.trimIndent()
+        val parametrosActualizar = arrayOf(
+            sistemaSolar.nombre,
+            sistemaSolar.descripcion,
+            sistemaSolar.tamanio.toString(),
+            sistemaSolar.id.toString()
+        )
+        baseDatosEscritura.execSQL(scriptActualizarSistemaSolar, parametrosActualizar)
         baseDatosEscritura.close()
 
     }

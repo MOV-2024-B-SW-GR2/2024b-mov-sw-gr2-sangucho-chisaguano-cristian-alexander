@@ -22,12 +22,11 @@
         android:id="@+id/it_nombre_ss"
         android:layout_width="275dp"
         android:layout_height="61dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="72dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Nombre"
         app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -38,7 +37,6 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Descripcion"
         app:layout_constraintEnd_toEndOf="@+id/it_nombre_ss"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/it_nombre_ss"
@@ -51,7 +49,6 @@
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="number"
-        android:text="tamaño"
         app:layout_constraintEnd_toEndOf="@+id/it_descripcion_ss"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/it_descripcion_ss"
@@ -66,5 +63,32 @@
         app:layout_constraintEnd_toEndOf="@+id/it_tamanio_ss"
         app:layout_constraintStart_toStartOf="@+id/it_tamanio_ss"
         app:layout_constraintTop_toBottomOf="@+id/it_tamanio_ss" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Nombre:"
+        app:layout_constraintEnd_toStartOf="@+id/it_nombre_ss"
+        tools:layout_editor_absoluteY="177dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Descripcion:"
+        app:layout_constraintEnd_toStartOf="@+id/it_descripcion_ss"
+        tools:layout_editor_absoluteY="276dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Tamaño:"
+        app:layout_constraintEnd_toStartOf="@+id/it_tamanio_ss"
+        tools:layout_editor_absoluteY="378dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

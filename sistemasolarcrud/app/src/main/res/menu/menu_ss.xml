@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/m_eliminar_ss"
+        android:id="@+id/m_editar_ss"
         android:title="Editar" />
     <item
         android:id="@+id/m_eliminar_ss"
         android:title="Eliminar" />
     <item
         android:id="@+id/m_ver_ss"
-        android:title="Ver Pokemon" />
+        android:title="Ver Planetas" />
 </menu>

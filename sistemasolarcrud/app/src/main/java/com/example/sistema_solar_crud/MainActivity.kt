@@ -84,8 +84,18 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.m_ver_ss -> {
                 sistemaSolarSeleccionado?.let {
-                    val intent = Intent(this, VerSistemaSolarActivity::class.java)
+                    val intent = Intent(this, PlanetaActivity::class.java)
                     intent.putExtra("sistemaSolarId", it.id)
+                    startActivity(intent)
+                }
+            }
+            R.id.m_editar_ss -> {
+                sistemaSolarSeleccionado?.let {
+                    val intent = Intent(this, CrearSistemaSolarActivity::class.java)
+                    intent.putExtra("sistemaSolarId", it.id)
+                    intent.putExtra("nombre", it.nombre)
+                    intent.putExtra("descripcion", it.descripcion)
+                    intent.putExtra("tamanio", it.tamanio)
                     startActivity(intent)
                 }
             }

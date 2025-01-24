@@ -11,6 +11,8 @@ import com.example.sistema_solar_crud.modelo.SistemaSolar
 import com.google.android.material.snackbar.Snackbar
 
 class CrearSistemaSolarActivity : AppCompatActivity() {
+    private var sistemaSolarId: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,25 +25,44 @@ class CrearSistemaSolarActivity : AppCompatActivity() {
 
         val btnGuardarPlaneta = findViewById<Button>(R.id.btn_guardar_ss)
         val itNombre = findViewById<EditText>(R.id.it_nombre_ss)
-        val itEdad = findViewById<EditText>(R.id.it_descripcion_ss)
+        val itDescripcion = findViewById<EditText>(R.id.it_descripcion_ss)
         val itTamanio = findViewById<EditText>(R.id.it_tamanio_ss)
 
-        btnGuardarPlaneta.setOnClickListener {
-            val nombre = itNombre.text.toString()
-            val edad = itEdad.text.toString()
-            val tamanio = itTamanio.text.toString()
+        sistemaSolarId = intent.getIntExtra("sistemaSolarId", -1)
+        val nombre = intent.getStringExtra("nombre")
+        val descripcion = intent.getStringExtra("descripcion")
+        val tamanio = intent.getIntExtra("tamanio", -1)
+        if (sistemaSolarId != -1 && nombre != null && descripcion != null && tamanio != -1) {
+            itNombre.setText(nombre)
+            itDescripcion.setText(descripcion)
+            itTamanio.setText(tamanio.toString())
+        }
 
-            if (nombre.isEmpty() || edad.isEmpty() || tamanio.isEmpty()) {
+
+        btnGuardarPlaneta.setOnClickListener {
+            val nuevoNombre = itNombre.text.toString()
+            val nuevaDescripcion = itDescripcion.text.toString()
+            val nuevoTamanio = itTamanio.text.toString()
+
+            if (nuevoNombre.isEmpty() || nuevaDescripcion.isEmpty() || nuevoTamanio.isEmpty()) {
                 mostrarSnackbar("Por favor, llene todos los campos")
             } else {
-                BDSQLite.bdsqLite?.registrarSistemaSolar(
-                    SistemaSolar(
-                        nombre = nombre,
-                        descripcion = edad,
-                        tamanio = tamanio.toInt()
-                    )
+                val sistemaSolar = SistemaSolar(
+                    id = sistemaSolarId ?: 0,
+                    nombre = nuevoNombre,
+                    descripcion = nuevaDescripcion,
+                    tamanio = nuevoTamanio.toInt()
                 )
-                mostrarSnackbar("Sistema Solar guardado")
+
+                if (sistemaSolarId != -1) {
+                    // Actualizar sistema solar existente
+                    BDSQLite.bdsqLite?.actualizarSistemaSolar(sistemaSolar)
+                    mostrarSnackbar("Sistema Solar actualizado")
+                } else {
+                    // Registrar nuevo sistema solar
+                    BDSQLite.bdsqLite?.registrarSistemaSolar(sistemaSolar)
+                    mostrarSnackbar("Sistema Solar guardado")
+                }
             }
         }
 
