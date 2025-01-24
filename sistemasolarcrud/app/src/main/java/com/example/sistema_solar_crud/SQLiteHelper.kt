@@ -50,4 +50,39 @@ class SQLiteHelper(
         return if (resultadoGuardar.toInt() == -1) false else true
     }
 
+    fun listarSistemasSolares(): ArrayList<SistemaSolar> {
+        val scriptSQLConsultarSistemaSolar = "SELECT * FROM SISTEMASOLAR"
+        val baseDatosLectura = readableDatabase
+        val resultadoConsultaLectura = baseDatosLectura.rawQuery(
+            scriptSQLConsultarSistemaSolar,
+            null
+        )
+        val sistemasSolares = ArrayList<SistemaSolar>()
+
+        while (resultadoConsultaLectura.moveToNext()) {
+            sistemasSolares.add(
+                SistemaSolar(
+                    resultadoConsultaLectura.getInt(0),
+                    resultadoConsultaLectura.getString(1),
+                    resultadoConsultaLectura.getString(2),
+                    resultadoConsultaLectura.getInt(3)
+                )
+            )
+        }
+
+        resultadoConsultaLectura.close()
+        baseDatosLectura.close()
+        return sistemasSolares
+
+    }
+
+    fun eliminarSistemaSolar(id: Int) {
+        val baseDatosEscritura = writableDatabase
+        val scriptEliminarSistemaSolar = "DELETE FROM SISTEMASOLAR WHERE id = ?"
+        val parametrosEliminar = arrayOf(id.toString())
+        baseDatosEscritura.execSQL(scriptEliminarSistemaSolar, parametrosEliminar)
+        baseDatosEscritura.close()
+
+    }
+
 }

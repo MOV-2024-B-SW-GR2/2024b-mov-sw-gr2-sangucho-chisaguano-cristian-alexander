@@ -4,11 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class SistemaSolar(
+    var id: Int = 0,
     var nombre: String,
     var descripcion: String?,
     var tamanio: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString() ?: "",
         parcel.readString(),
         parcel.readInt()

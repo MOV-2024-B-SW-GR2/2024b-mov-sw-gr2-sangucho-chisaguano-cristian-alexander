@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.sistema_solar_crud.modelo.SistemaSolar
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var sistemasSolares: ArrayList<SistemaSolar>
     private lateinit var btnAgregarSistemaSolar: Button
     private lateinit var listViewSistemaSolar: ListView
 
@@ -25,8 +29,12 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         //inicializar bd
         BDSQLite.bdsqLite = SQLiteHelper(this)
+
+
+
 
         listViewSistemaSolar = findViewById(R.id.ls_sistemas_solares)
         btnAgregarSistemaSolar = findViewById(R.id.btn_crear_ss)
@@ -37,7 +45,21 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, CrearSistemaSolarActivity::class.java))
         }
 
+        //mostrar-actualizar la lista
+        actualizarLista()
+
     }
+
+    private fun actualizarLista() {
+        sistemasSolares = BDSQLite.bdsqLite?.listarSistemasSolares() ?: ArrayList()
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            sistemasSolares.map { it.nombre }
+        )
+        listViewSistemaSolar.adapter = adapter
+    }
+
 
     override fun onCreateContextMenu(
         menu: ContextMenu?,
@@ -49,16 +71,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val opcion: Int = item.getItemId();
-        when (opcion) {
-            R.id.m_eliminar_ss -> {}
-            R.id.m_eliminar_ss -> {}
-            R.id.m_ver_ss -> {}
+        val info = item.menuInfo as? AdapterView.AdapterContextMenuInfo
+        val sistemaSolarIndex = info?.position
+        val sistemaSolarSeleccionado = sistemaSolarIndex?.let { sistemasSolares[it] }
+
+        when (item.itemId) {
+            R.id.m_eliminar_ss -> {
+                sistemaSolarSeleccionado?.let {
+                    BDSQLite.bdsqLite?.eliminarSistemaSolar(it.id)
+                    actualizarLista()
+                }
+            }
+            R.id.m_ver_ss -> {
+                sistemaSolarSeleccionado?.let {
+                    val intent = Intent(this, VerSistemaSolarActivity::class.java)
+                    intent.putExtra("sistemaSolarId", it.id)
+                    startActivity(intent)
+                }
+            }
         }
         return super.onContextItemSelected(item)
 
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        actualizarLista()
+    }
 }
 
