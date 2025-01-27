@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.sistema_solar_crud.modelo.Planeta
 import com.example.sistema_solar_crud.modelo.SistemaSolar
 
 class SQLiteHelper(
@@ -30,11 +31,11 @@ class SQLiteHelper(
             """
                 CREATE TABLE PLANETA(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    descripcion VARCHAR(50),
-                    monto Double,
-                    cantidad INTEGER,
-                    cliente_id INTEGER,
-                    FOREIGN KEY(cliente_id) REFERENCES CLIENTE(id) ON DELETE CASCADE
+                    nombre VARCHAR(50),
+                    tipo VARCHAR(50),
+                    distancia_al_sol INTEGER,
+                    sistema_solar_id INTEGER,
+                    FOREIGN KEY(sistema_solar_id) REFERENCES SISTEMASOLAR(id) ON DELETE CASCADE
                 )
             """.trimIndent()
         db?.execSQL(scriptSQLCrearTablaPlaneta)
@@ -119,5 +120,107 @@ class SQLiteHelper(
         baseDatosEscritura.close()
 
     }
+
+
+    fun crearPlaneta(planeta: Planeta): Boolean {
+        val baseDatosEscritura = writableDatabase
+        val scriptCrearPlaneta =
+            """
+            INSERT INTO PLANETA(nombre, tipo, distancia_al_sol, sistema_solar_id)
+            VALUES(?, ?, ?, ?)
+        """.trimIndent()
+        val parametrosCrear = arrayOf(
+            planeta.nombre,
+            planeta.tipo,
+            planeta.distancia.toString(),
+            planeta.sistemaSolarId.toString()
+        )
+        return try {
+            baseDatosEscritura.execSQL(scriptCrearPlaneta, parametrosCrear)
+            baseDatosEscritura.close()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            baseDatosEscritura.close()
+            false
+        }
+    }
+
+    fun createPlanetaTableIfNotExists() {
+        writableDatabase.execSQL("CREATE TABLE IF NOT EXISTS PLANETA(\n" +
+                "                    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "                    nombre VARCHAR(50),\n" +
+                "                    tipo VARCHAR(50),\n" +
+                "                    distancia_al_sol INTEGER,\n" +
+                "                    sistema_solar_id INTEGER,\n" +
+                "                    FOREIGN KEY(sistema_solar_id) REFERENCES SISTEMASOLAR(id) ON DELETE CASCADE\n" +
+                "                )")
+
+    }
+
+    fun listarPlanetas(sistemaSolarId: Int): ArrayList<Planeta> {
+        val scriptSQLConsultarPlaneta = "SELECT * FROM PLANETA WHERE sistema_solar_id = ?"
+        val baseDatosLectura = readableDatabase
+        val resultadoConsultaLectura = baseDatosLectura.rawQuery(
+            scriptSQLConsultarPlaneta,
+            arrayOf(sistemaSolarId.toString())
+        )
+        val planetas = ArrayList<Planeta>()
+
+        while (resultadoConsultaLectura.moveToNext()) {
+            planetas.add(
+                Planeta(
+                    resultadoConsultaLectura.getInt(0),
+                    resultadoConsultaLectura.getString(1),
+                    resultadoConsultaLectura.getString(2),
+                    resultadoConsultaLectura.getInt(3),
+                    resultadoConsultaLectura.getInt(4)
+                )
+            )
+        }
+
+        resultadoConsultaLectura.close()
+        baseDatosLectura.close()
+        return planetas
+    }
+
+    fun eliminarPlaneta(planeta_id: Int, sistema_solar_id: Int) {
+        val baseDatosEscritura = writableDatabase
+        val scriptEliminarPlaneta = "DELETE FROM PLANETA WHERE id = ? AND sistema_solar_id = ?"
+        val parametrosEliminar = arrayOf(planeta_id.toString(), sistema_solar_id.toString())
+        baseDatosEscritura.execSQL(scriptEliminarPlaneta, parametrosEliminar)
+        baseDatosEscritura.close()
+
+    }
+
+    fun actualizarPlaneta(planeta: Planeta): Boolean {
+        val baseDatosEscritura = writableDatabase
+        val scriptActualizarPlaneta =
+            """
+                UPDATE PLANETA
+                SET nombre = ?,
+                    tipo = ?,
+                    distancia_al_sol = ?
+                WHERE id = ?
+            """.trimIndent()
+        val parametrosActualizar = arrayOf(
+            planeta.nombre,
+            planeta.tipo,
+            planeta.distancia.toString(),
+            planeta.id.toString()
+        )
+        return try {
+            baseDatosEscritura.execSQL(scriptActualizarPlaneta, parametrosActualizar)
+            baseDatosEscritura.close()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            baseDatosEscritura.close()
+            false
+        }
+
+
+    }
+
 
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.sistema_solar_crud.modelo.SistemaSolar
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sistemasSolares: ArrayList<SistemaSolar>
@@ -32,9 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         //inicializar bd
         BDSQLite.bdsqLite = SQLiteHelper(this)
-
-
-
 
         listViewSistemaSolar = findViewById(R.id.ls_sistemas_solares)
         btnAgregarSistemaSolar = findViewById(R.id.btn_crear_ss)
@@ -79,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             R.id.m_eliminar_ss -> {
                 sistemaSolarSeleccionado?.let {
                     BDSQLite.bdsqLite?.eliminarSistemaSolar(it.id)
+                    mostrarSnackbar("Sistema solar ${it.nombre} eliminado")
                     actualizarLista()
                 }
             }
@@ -86,11 +85,13 @@ class MainActivity : AppCompatActivity() {
                 sistemaSolarSeleccionado?.let {
                     val intent = Intent(this, PlanetaActivity::class.java)
                     intent.putExtra("sistemaSolarId", it.id)
+                    mostrarSnackbar("Ver planetas del sistema solar ${it.id}")
                     startActivity(intent)
                 }
             }
             R.id.m_editar_ss -> {
                 sistemaSolarSeleccionado?.let {
+                    mostrarSnackbar("Editar sistema solar ${it.nombre}")
                     val intent = Intent(this, CrearSistemaSolarActivity::class.java)
                     intent.putExtra("sistemaSolarId", it.id)
                     intent.putExtra("nombre", it.nombre)
@@ -107,6 +108,15 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         actualizarLista()
+    }
+
+    fun mostrarSnackbar(texto: String) {
+        val snack = Snackbar.make(
+            findViewById(R.id.main),
+            texto,
+            Snackbar.LENGTH_LONG
+        )
+        snack.show()
     }
 }
 
