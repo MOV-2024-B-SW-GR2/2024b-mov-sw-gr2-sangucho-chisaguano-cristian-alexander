@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.gr2sw2024b_casc"
+    namespace = "com.example.gr2sw2024b_vaes"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.gr2sw2024b_casc"
+        applicationId = "com.example.gr2sw2024b_vaes"
         minSdk = 27
         targetSdk = 34
         versionCode = 1
@@ -35,6 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -48,3 +49,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+tasks.register("testClasses")
