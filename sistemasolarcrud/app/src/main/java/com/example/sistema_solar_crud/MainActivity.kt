@@ -97,6 +97,16 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("nombre", it.nombre)
                     intent.putExtra("descripcion", it.descripcion)
                     intent.putExtra("tamanio", it.tamanio)
+                    intent.putExtra("latitud", it.latitud)
+                    intent.putExtra("longitud", it.longitud)
+                    startActivity(intent)
+                }
+            }
+            R.id.m_ver_ubicacion -> {
+                sistemaSolarSeleccionado?.let {
+                    val intent = Intent(this, MapsActivity::class.java)
+                    intent.putExtra("latitud", it.latitud)
+                    intent.putExtra("longitud", it.longitud)
                     startActivity(intent)
                 }
             }

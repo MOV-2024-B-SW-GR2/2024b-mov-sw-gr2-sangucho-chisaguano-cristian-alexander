@@ -22,7 +22,9 @@ class SQLiteHelper(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre VARCHAR(50),
                     descripcion VARCHAR(50),
-                    tamanio INTEGER
+                    tamanio INTEGER,
+                    latitud DOUBLE,
+                    longitud DOUBLE
                 )
             """.trimIndent()
         db?.execSQL(scriptSQLCrearTablaSistemaSolar)
@@ -55,6 +57,8 @@ class SQLiteHelper(
         valoresGuardar.put("nombre", sistemaSolar.nombre)
         valoresGuardar.put("descripcion", sistemaSolar.descripcion)
         valoresGuardar.put("tamanio", sistemaSolar.tamanio)
+        valoresGuardar.put("latitud", sistemaSolar.latitud)
+        valoresGuardar.put("longitud", sistemaSolar.longitud)
         val resultadoGuardar = baseDatosEscritura
             .insert(
                 "SISTEMASOLAR", // nombre tabla
@@ -80,7 +84,9 @@ class SQLiteHelper(
                     resultadoConsultaLectura.getInt(0),
                     resultadoConsultaLectura.getString(1),
                     resultadoConsultaLectura.getString(2),
-                    resultadoConsultaLectura.getInt(3)
+                    resultadoConsultaLectura.getInt(3),
+                    resultadoConsultaLectura.getDouble(4),
+                    resultadoConsultaLectura.getDouble(5)
                 )
             )
         }
@@ -107,13 +113,17 @@ class SQLiteHelper(
                 UPDATE SISTEMASOLAR
                 SET nombre = ?,
                     descripcion = ?,
-                    tamanio = ?
+                    tamanio = ?,
+                    latitud = ?,
+                    longitud = ?
                 WHERE id = ?
             """.trimIndent()
         val parametrosActualizar = arrayOf(
             sistemaSolar.nombre,
             sistemaSolar.descripcion,
             sistemaSolar.tamanio.toString(),
+            sistemaSolar.latitud.toString().toDouble(),
+            sistemaSolar.longitud.toString().toDouble(),
             sistemaSolar.id.toString()
         )
         baseDatosEscritura.execSQL(scriptActualizarSistemaSolar, parametrosActualizar)
